@@ -1,5 +1,6 @@
 import React from 'react'
 import Login from './Login'
+import Register from './Register'
 import { getFruits } from '../apiClient'
 
 class App extends React.Component {
@@ -16,7 +17,7 @@ class App extends React.Component {
 
   render () {
     return (
-        <Login />
+        <Register />
 
     )
   }

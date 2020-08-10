@@ -9,4 +9,6 @@ server.use(express.static(path.join(__dirname, 'public')))
 
 server.use('/api/v1/fruits', fruitRoutes)
 
+server.use(express.json())
+
 module.exports = server
