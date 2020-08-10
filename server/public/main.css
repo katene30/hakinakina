@@ -1,0 +1,30 @@
+.vertical-center {
+    min-height: 75%;  
+    min-height: 75vh; 
+  
+    display: flex;
+    align-items: center;
+  }
+
+  .rotate {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .hakinakina{
+    letter-spacing: 3px;
+  }
+
+  .bg {
+    /* The image used */
+    background-image: url('./utils/mountain.jpg') ;
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+  }
