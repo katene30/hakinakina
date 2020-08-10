@@ -54,9 +54,8 @@ class Register extends React.Component {
                 </div>
               </div>
 
-              <label className="pt-2" htmlFor="inputEmail">Email address</label>
-              <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" onChange={this.updateDetails}/>
-              <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+              <label className="pt-2" htmlFor="inputUsername">Username</label>
+              <input type="text" className="form-control" id="inputUsername" onChange={this.updateDetails}/>
             </div>
 
             <div className="form-group">
