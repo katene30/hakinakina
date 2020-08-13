@@ -10,13 +10,9 @@ export function createUser(username,firstName,lastName,hash){
         lastName,
         hash
     }
-    console.log('hit')
-    return request.post({
-        url:rootUrl+'/register',
-        body:newUser
-    })
+    return request.post(rootUrl+'/register')
+    .send(newUser)
     .then(res => {
-        console.log(res.body)
         return res.body
     })
 }

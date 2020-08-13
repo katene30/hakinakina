@@ -6,8 +6,8 @@ module.exports = {
   getUser
 }
 
-function createUser ({username,firstName,lastName, password}, db = connection) {
-    return generateHash(password)
+function createUser ({username,firstName,lastName, hash}, db = connection) {
+    return generateHash(hash)
       .then(hash => db('users').insert({username,firstName,lastName, hash}))
   }
 

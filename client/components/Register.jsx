@@ -30,6 +30,7 @@ class Register extends React.Component {
     createUser(username,firstName,lastName,hash)
     .then(user => {
       console.log('great successs ',user)
+      return <Redirect to="/" />
     })  
   }
 
@@ -47,8 +48,6 @@ class Register extends React.Component {
               <h2>Sign Up</h2>
               <hr/>
 
-              {/* Error Message
-              {this.props.auth.errorMessage && <div className="alert alert-danger">{this.props.auth.errorMessage}</div>} */}
   
               <div className="form-row">
                 <div className="col">

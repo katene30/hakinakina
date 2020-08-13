@@ -6,6 +6,8 @@ const token = require("../auth/token")
 
 const router = express.Router()
 
+const rootUrl = '/api/v1/auth'
+
 router.post('/register', register,token.issue)
 router.use(userError)
 
@@ -32,8 +34,7 @@ router.get(
   }
 
 function register (req, res,next) {
-    const {firstName,lastName,username, password} = req.body
-    createUser({firstName,lastName,username, password})
+    createUser(req.body)
     .then(([id]) => {
         // Be sure to grab the id out of the array Knex returns it in!
         // You can use array destructuring (as above) if you like.
