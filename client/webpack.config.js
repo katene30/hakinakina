@@ -17,5 +17,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
+  // fixes this
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+  },
+  target:'web',
   devtool: 'source-map'
 }

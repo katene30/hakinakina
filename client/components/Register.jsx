@@ -1,4 +1,5 @@
 import React from 'react'
+import {createUser} from '../api/users'
 
 
 class Register extends React.Component {
@@ -6,6 +7,8 @@ class Register extends React.Component {
     super(props)
     this.state = {
       username: '',
+      firstName:'',
+      lastName:'',
       hash: ''
     }
     this.updateDetails = this.updateDetails.bind(this)
@@ -17,13 +20,17 @@ class Register extends React.Component {
   }
 
   updateDetails(e) {
-    this.setState({[e.target.name]: e.target.value})
+    this.setState({[e.target.id]: e.target.value})
   }
 
   submit(e) {
     e.preventDefault()
-    let {username, hash} = this.state
-    this.props.dispatch(loginUser({username, hash}))
+    let {username,firstName,lastName, hash} = this.state
+
+    createUser(username,firstName,lastName,hash)
+    .then(user => {
+      console.log('great successs ',user)
+    })  
   }
 
   render () {
@@ -46,21 +53,21 @@ class Register extends React.Component {
               <div className="form-row">
                 <div className="col">
                   <label htmlFor="firstName"> First Name </label>
-                  <input type="text" className="form-control" id="firstName"/>
+                  <input type="text" className="form-control" id="firstName" onChange={this.updateDetails}/>
                 </div>
                 <div className="col">
                   <label htmlFor="lastName">Last Name</label>
-                  <input type="text" className="form-control"  id="lastName"/>
+                  <input type="text" className="form-control"  onChange={this.updateDetails} id="lastName"/>
                 </div>
               </div>
 
-              <label className="pt-2" htmlFor="inputUsername">Username</label>
-              <input type="text" className="form-control" id="inputUsername" onChange={this.updateDetails}/>
+              <label className="pt-2" htmlFor="username">Username</label>
+              <input type="text" className="form-control" id="username" onChange={this.updateDetails}/>
             </div>
 
             <div className="form-group">
-              <label htmlFor="inputPassword">Password</label>
-              <input type="password" className="form-control" id="inputPassword" onChange={this.updateDetails}/>
+              <label htmlFor="hash">Password</label>
+              <input type="password" className="form-control" id="hash" onChange={this.updateDetails}/>
             </div>
 
             <button type="submit" className="btn btn-primary">Submit</button>

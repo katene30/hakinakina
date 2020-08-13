@@ -8,6 +8,7 @@ const router = express.Router()
 
 router.post('/register', register,token.issue)
 router.use(userError)
+
 router.get(
     '/user',
     verifyJwt({secret: process.env.JWT_SECRET, algorithms: ['HS256']}),

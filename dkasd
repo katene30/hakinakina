@@ -1,0 +1,284 @@
+[1mdiff --git a/client/components/Register.jsx b/client/components/Register.jsx[m
+[1mindex 62b719d..5aa33e7 100644[m
+[1m--- a/client/components/Register.jsx[m
+[1m+++ b/client/components/Register.jsx[m
+[36m@@ -1,4 +1,5 @@[m
+ import React from 'react'[m
+[32m+[m[32mimport {createUser} from '../api/users'[m
+ [m
+ [m
+ class Register extends React.Component {[m
+[36m@@ -6,6 +7,8 @@[m [mclass Register extends React.Component {[m
+     super(props)[m
+     this.state = {[m
+       username: '',[m
+[32m+[m[32m      firstName:'',[m
+[32m+[m[32m      lastName:'',[m
+       hash: ''[m
+     }[m
+     this.updateDetails = this.updateDetails.bind(this)[m
+[36m@@ -17,13 +20,17 @@[m [mclass Register extends React.Component {[m
+   }[m
+ [m
+   updateDetails(e) {[m
+[31m-    this.setState({[e.target.name]: e.target.value})[m
+[32m+[m[32m    this.setState({[e.target.id]: e.target.value})[m
+   }[m
+ [m
+   submit(e) {[m
+     e.preventDefault()[m
+[31m-    let {username, hash} = this.state[m
+[31m-    this.props.dispatch(loginUser({username, hash}))[m
+[32m+[m[32m    let {username,firstName,lastName, hash} = this.state[m
+[32m+[m
+[32m+[m[32m    createUser(username,firstName,lastName,hash)[m
+[32m+[m[32m    .then(user => {[m
+[32m+[m[32m      console.log('great successs ',user)[m
+[32m+[m[32m    })[m[41m  [m
+   }[m
+ [m
+   render () {[m
+[36m@@ -46,21 +53,21 @@[m [mclass Register extends React.Component {[m
+               <div className="form-row">[m
+                 <div className="col">[m
+                   <label htmlFor="firstName"> First Name </label>[m
+[31m-                  <input type="text" className="form-control" id="firstName"/>[m
+[32m+[m[32m                  <input type="text" className="form-control" id="firstName" onChange={this.updateDetails}/>[m
+                 </div>[m
+                 <div className="col">[m
+                   <label htmlFor="lastName">Last Name</label>[m
+[31m-                  <input type="text" className="form-control"  id="lastName"/>[m
+[32m+[m[32m                  <input type="text" className="form-control"  onChange={this.updateDetails} id="lastName"/>[m
+                 </div>[m
+               </div>[m
+ [m
+[31m-              <label className="pt-2" htmlFor="inputUsername">Username</label>[m
+[31m-              <input type="text" className="form-control" id="inputUsername" onChange={this.updateDetails}/>[m
+[32m+[m[32m              <label className="pt-2" htmlFor="username">Username</label>[m
+[32m+[m[32m              <input type="text" className="form-control" id="username" onChange={this.updateDetails}/>[m
+             </div>[m
+ [m
+             <div className="form-group">[m
+[31m-              <label htmlFor="inputPassword">Password</label>[m
+[31m-              <input type="password" className="form-control" id="inputPassword" onChange={this.updateDetails}/>[m
+[32m+[m[32m              <label htmlFor="hash">Password</label>[m
+[32m+[m[32m              <input type="password" className="form-control" id="hash" onChange={this.updateDetails}/>[m
+             </div>[m
+ [m
+             <button type="submit" className="btn btn-primary">Submit</button>[m
+[1mdiff --git a/server/routes/auth.js b/server/routes/auth.js[m
+[1mindex a46faac..05dab17 100644[m
+[1m--- a/server/routes/auth.js[m
+[1m+++ b/server/routes/auth.js[m
+[36m@@ -8,6 +8,7 @@[m [mconst router = express.Router()[m
+ [m
+ router.post('/register', register,token.issue)[m
+ router.use(userError)[m
+[32m+[m
+ router.get([m
+     '/user',[m
+     verifyJwt({secret: process.env.JWT_SECRET, algorithms: ['HS256']}),[m
+[1mdiff --git a/yarn.lock b/yarn.lock[m
+[1mindex e9980d4..4262378 100644[m
+[1m--- a/yarn.lock[m
+[1m+++ b/yarn.lock[m
+[36m@@ -276,9 +276,9 @@[m
+     js-tokens "^4.0.0"[m
+ [m
+ "@babel/parser@^7.1.0", "@babel/parser@^7.10.4", "@babel/parser@^7.11.0", "@babel/parser@^7.11.1":[m
+[31m-  version "7.11.2"[m
+[31m-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.11.2.tgz#0882ab8a455df3065ea2dcb4c753b2460a24bead"[m
+[31m-  integrity sha512-Vuj/+7vLo6l1Vi7uuO+1ngCDNeVmNbTngcJFKCR/oEtz8tKz0CJxZEGmPt9KcIloZhOZ3Zit6xbpXT2MDlS9Vw==[m
+[32m+[m[32m  version "7.11.3"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.11.3.tgz#9e1eae46738bcd08e23e867bab43e7b95299a8f9"[m
+[32m+[m[32m  integrity sha512-REo8xv7+sDxkKvoxEywIdsNFiZLybwdI7hcT5uEPyQrSMB4YQ973BfC9OOrD/81MaIjh6UxdulIQXkjmiH3PcA==[m
+ [m
+ "@babel/plugin-proposal-async-generator-functions@^7.10.4":[m
+   version "7.10.5"[m
+[36m@@ -1482,7 +1482,7 @@[m [macorn@^7.1.0, acorn@^7.1.1:[m
+   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.0.tgz#e1ad486e6c54501634c6c397c5c121daa383607c"[m
+   integrity sha512-+G7P8jJmCHr+S+cLfQxygbWhXy+8YTVGzAkpEbcLo2mLoL7tij/VG41QSHACSf5QgYRhMZYHuNc6drJaO0Da+w==[m
+ [m
+[31m-airbnb-prop-types@^2.15.0:[m
+[32m+[m[32mairbnb-prop-types@^2.16.0:[m
+   version "2.16.0"[m
+   resolved "https://registry.yarnpkg.com/airbnb-prop-types/-/airbnb-prop-types-2.16.0.tgz#b96274cefa1abb14f623f804173ee97c13971dc2"[m
+   integrity sha512-7WHOFolP/6cS96PhKNrslCLMYAI8yB1Pp6u6XmxozQOiZbsI5ycglZr5cHhBFfuRcQQjzCMith5ZPZdYiJCxUg==[m
+[36m@@ -2082,14 +2082,14 @@[m [mbrowserify-zlib@^0.2.0:[m
+     pako "~1.0.5"[m
+ [m
+ browserslist@^4.12.0, browserslist@^4.8.5:[m
+[31m-  version "4.13.0"[m
+[31m-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.13.0.tgz#42556cba011e1b0a2775b611cba6a8eca18e940d"[m
+[31m-  integrity sha512-MINatJ5ZNrLnQ6blGvePd/QOz9Xtu+Ne+x29iQSCHfkU5BugKVJwZKn/iiL8UbpIpa3JhviKjz+XxMo0m2caFQ==[m
+[32m+[m[32m  version "4.14.0"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.14.0.tgz#2908951abfe4ec98737b72f34c3bcedc8d43b000"[m
+[32m+[m[32m  integrity sha512-pUsXKAF2lVwhmtpeA3LJrZ76jXuusrNyhduuQs7CDFf9foT4Y38aQOserd2lMe5DSSrjf3fx34oHwryuvxAUgQ==[m
+   dependencies:[m
+[31m-    caniuse-lite "^1.0.30001093"[m
+[31m-    electron-to-chromium "^1.3.488"[m
+[31m-    escalade "^3.0.1"[m
+[31m-    node-releases "^1.1.58"[m
+[32m+[m[32m    caniuse-lite "^1.0.30001111"[m
+[32m+[m[32m    electron-to-chromium "^1.3.523"[m
+[32m+[m[32m    escalade "^3.0.2"[m
+[32m+[m[32m    node-releases "^1.1.60"[m
+ [m
+ bser@2.1.1:[m
+   version "2.1.1"[m
+[36m@@ -2206,10 +2206,10 @@[m [mcamelcase@^5.0.0, camelcase@^5.3.1:[m
+   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"[m
+   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==[m
+ [m
+[31m-caniuse-lite@^1.0.30001093:[m
+[31m-  version "1.0.30001111"[m
+[31m-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001111.tgz#dd0ce822c70eb6c7c068e4a55c22e19ec1501298"[m
+[31m-  integrity sha512-xnDje2wchd/8mlJu8sXvWxOGvMgv+uT3iZ3bkIAynKOzToCssWCmkz/ZIkQBs/2pUB4uwnJKVORWQ31UkbVjOg==[m
+[32m+[m[32mcaniuse-lite@^1.0.30001111:[m
+[32m+[m[32m  version "1.0.30001112"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001112.tgz#0fffc3b934ff56ff0548c37bc9dad7d882bcf672"[m
+[32m+[m[32m  integrity sha512-J05RTQlqsatidif/38aN3PGULCLrg8OYQOlJUKbeYVzC2mGZkZLIztwRlB3MtrfLmawUmjFlNJvy/uhwniIe1Q==[m
+ [m
+ capture-exit@^2.0.0:[m
+   version "2.0.0"[m
+[36m@@ -3023,10 +3023,10 @@[m [mee-first@1.1.1:[m
+   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"[m
+   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=[m
+ [m
+[31m-electron-to-chromium@^1.3.488:[m
+[31m-  version "1.3.523"[m
+[31m-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.523.tgz#494080b318ba929614eebd04405b94c359ea9333"[m
+[31m-  integrity sha512-D4/3l5DpciddD92IDRtpLearQSGzly8FwBJv+nITvLH8YJrFabpDFe4yuiOJh2MS4/EsXqyQTXyw1toeYPtshQ==[m
+[32m+[m[32melectron-to-chromium@^1.3.523:[m
+[32m+[m[32m  version "1.3.527"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.527.tgz#5f59202c066c77a13e6cb0869852ef784e8f2089"[m
+[32m+[m[32m  integrity sha512-ZlB9ySKOnS4g2Ja/TWDz4Q79NZhKV+Vsgntg85zLN08t+QsN1hK/zeDrcqwysSfbfGRVtvai6QYMczeNNUUgUA==[m
+ [m
+ elliptic@^6.5.3:[m
+   version "6.5.3"[m
+[36m@@ -3088,39 +3088,39 @@[m [mentities@^2.0.0:[m
+   integrity sha512-MyoZ0jgnLvB2X3Lg5HqpFmn1kybDiIfEQmKzTb5apr51Rb+T3KdmMiqa70T+bhGnyv7bQ6WMj2QMHpGMmlrUYQ==[m
+ [m
+ enzyme-adapter-react-16@^1.15.2:[m
+[31m-  version "1.15.2"[m
+[31m-  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.15.2.tgz#b16db2f0ea424d58a808f9df86ab6212895a4501"[m
+[31m-  integrity sha512-SkvDrb8xU3lSxID8Qic9rB8pvevDbLybxPK6D/vW7PrT0s2Cl/zJYuXvsd1EBTz0q4o3iqG3FJhpYz3nUNpM2Q==[m
+[32m+[m[32m  version "1.15.3"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.15.3.tgz#90154055be3318d70a51df61ac89cfa22e3d5f60"[m
+[32m+[m[32m  integrity sha512-98rqNI4n9HZslWIPuuwy4hK1bxRuMy+XX0CU1dS8iUqcgisTxeBaap6oPp2r4MWC8OphCbbqAT8EU/xHz3zIaQ==[m
+   dependencies:[m
+[31m-    enzyme-adapter-utils "^1.13.0"[m
+[31m-    enzyme-shallow-equal "^1.0.1"[m
+[32m+[m[32m    enzyme-adapter-utils "^1.13.1"[m
+[32m+[m[32m    enzyme-shallow-equal "^1.0.4"[m
+     has "^1.0.3"[m
+     object.assign "^4.1.0"[m
+     object.values "^1.1.1"[m
+     prop-types "^15.7.2"[m
+[31m-    react-is "^16.12.0"[m
+[32m+[m[32m    react-is "^16.13.1"[m
+     react-test-renderer "^16.0.0-0"[m
+     semver "^5.7.0"[m
+ [m
+[31m-enzyme-adapter-utils@^1.13.0:[m
+[31m-  version "1.13.0"[m
+[31m-  resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.13.0.tgz#01c885dde2114b4690bf741f8dc94cee3060eb78"[m
+[31m-  integrity sha512-YuEtfQp76Lj5TG1NvtP2eGJnFKogk/zT70fyYHXK2j3v6CtuHqc8YmgH/vaiBfL8K1SgVVbQXtTcgQZFwzTVyQ==[m
+[32m+[m[32menzyme-adapter-utils@^1.13.1:[m
+[32m+[m[32m  version "1.13.1"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.13.1.tgz#59c1b734b0927543e3d8dc477299ec957feb312d"[m
+[32m+[m[32m  integrity sha512-5A9MXXgmh/Tkvee3bL/9RCAAgleHqFnsurTYCbymecO4ohvtNO5zqIhHxV370t7nJAwaCfkgtffarKpC0GPt0g==[m
+   dependencies:[m
+[31m-    airbnb-prop-types "^2.15.0"[m
+[32m+[m[32m    airbnb-prop-types "^2.16.0"[m
+     function.prototype.name "^1.1.2"[m
+     object.assign "^4.1.0"[m
+     object.fromentries "^2.0.2"[m
+     prop-types "^15.7.2"[m
+     semver "^5.7.1"[m
+ [m
+[31m-enzyme-shallow-equal@^1.0.1:[m
+[31m-  version "1.0.3"[m
+[31m-  resolved "https://registry.yarnpkg.com/enzyme-shallow-equal/-/enzyme-shallow-equal-1.0.3.tgz#97412394be4fb3e99cc0ef360beded367bb7a08b"[m
+[31m-  integrity sha512-TymTPmQFADJaGX/wnSiZiSnkrxysiN62yOcPlyhQ9DWt8TxCGdITr2hh9ry5Odlxbr8rPFDyjZHrQZ6mSZj+6A==[m
+[32m+[m[32menzyme-shallow-equal@^1.0.1, enzyme-shallow-equal@^1.0.4:[m
+[32m+[m[32m  version "1.0.4"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/enzyme-shallow-equal/-/enzyme-shallow-equal-1.0.4.tgz#b9256cb25a5f430f9bfe073a84808c1d74fced2e"[m
+[32m+[m[32m  integrity sha512-MttIwB8kKxypwHvRynuC3ahyNc+cFbR8mjVIltnmzQ0uKGqmsfO4bfBuLxb0beLNPhjblUEYvEbsg+VSygvF1Q==[m
+   dependencies:[m
+     has "^1.0.3"[m
+[31m-    object-is "^1.0.2"[m
+[32m+[m[32m    object-is "^1.1.2"[m
+ [m
+ enzyme@^3.11.0:[m
+   version "3.11.0"[m
+[36m@@ -3190,7 +3190,7 @@[m [mes-to-primitive@^1.2.1:[m
+     is-date-object "^1.0.1"[m
+     is-symbol "^1.0.2"[m
+ [m
+[31m-escalade@^3.0.1:[m
+[32m+[m[32mescalade@^3.0.2:[m
+   version "3.0.2"[m
+   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.0.2.tgz#6a580d70edb87880f22b4c91d0d56078df6962c4"[m
+   integrity sha512-gPYAU37hYCUhW5euPeR+Y74F7BL+IBsV93j5cvGriSaD1aG6MGsqsV1yamRdrWrb2j3aiZvb0X+UBOWpx3JWtQ==[m
+[36m@@ -3593,9 +3593,9 @@[m [mflush-write-stream@^1.0.0:[m
+     readable-stream "^2.3.6"[m
+ [m
+ follow-redirects@^1.0.0:[m
+[31m-  version "1.12.1"[m
+[31m-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.12.1.tgz#de54a6205311b93d60398ebc01cf7015682312b6"[m
+[31m-  integrity sha512-tmRv0AVuR7ZyouUHLeNSiO6pqulF7dYa3s19c6t+wz9LD69/uSzdMxJ2S91nTI9U3rt/IldxpzMOFejp6f0hjg==[m
+[32m+[m[32m  version "1.13.0"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"[m
+[32m+[m[32m  integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==[m
+ [m
+ for-in@^1.0.1, for-in@^1.0.2:[m
+   version "1.0.2"[m
+[36m@@ -3753,9 +3753,9 @@[m [mget-stream@^4.0.0, get-stream@^4.1.0:[m
+     pump "^3.0.0"[m
+ [m
+ get-stream@^5.0.0, get-stream@^5.1.0:[m
+[31m-  version "5.1.0"[m
+[31m-  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-5.1.0.tgz#01203cdc92597f9b909067c3e656cc1f4d3c4dc9"[m
+[31m-  integrity sha512-EXr1FOzrzTfGeL0gQdeFEvOMm2mzMOglyiOXSTpPC+iAjAKftbr3jpCMWynogwYnM+eSj9sHGc6wjIcDvYiygw==[m
+[32m+[m[32m  version "5.2.0"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-5.2.0.tgz#4966a1795ee5ace65e706c4b7beb71257d6e22d3"[m
+[32m+[m[32m  integrity sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA==[m
+   dependencies:[m
+     pump "^3.0.0"[m
+ [m
+[36m@@ -5071,9 +5071,9 @@[m [mjsdom@^15.2.1:[m
+     xml-name-validator "^3.0.0"[m
+ [m
+ jsdom@^16.2.1:[m
+[31m-  version "16.3.0"[m
+[31m-  resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-16.3.0.tgz#75690b7dac36c67be49c336dcd7219bbbed0810c"[m
+[31m-  integrity sha512-zggeX5UuEknpdZzv15+MS1dPYG0J/TftiiNunOeNxSl3qr8Z6cIlQpN0IdJa44z9aFxZRIVqRncvEhQ7X5DtZg==[m
+[32m+[m[32m  version "16.4.0"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-16.4.0.tgz#36005bde2d136f73eee1a830c6d45e55408edddb"[m
+[32m+[m[32m  integrity sha512-lYMm3wYdgPhrl7pDcRmvzPhhrGVBeVhPIqeHjzeiHN3DFmD1RBpbExbi8vU7BJdH8VAZYovR8DMt0PNNDM7k8w==[m
+   dependencies:[m
+     abab "^2.0.3"[m
+     acorn "^7.1.1"[m
+[36m@@ -5863,7 +5863,7 @@[m [mnode-pre-gyp@^0.11.0:[m
+     semver "^5.3.0"[m
+     tar "^4"[m
+ [m
+[31m-node-releases@^1.1.58:[m
+[32m+[m[32mnode-releases@^1.1.60:[m
+   version "1.1.60"[m
+   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.60.tgz#6948bdfce8286f0b5d0e5a88e8384e954dfe7084"[m
+   integrity sha512-gsO4vjEdQaTusZAEebUWp2a5d7dF5DYoIpDG7WySnk7BuZDW+GPpHXoXXuYawRBr/9t5q54tirPz79kFIWg4dA==[m
+[36m@@ -6136,9 +6136,9 @@[m [monce@^1.3.0, once@^1.3.1, once@^1.4.0:[m
+     wrappy "1"[m
+ [m
+ onetime@^5.1.0:[m
+[31m-  version "5.1.1"[m
+[31m-  resolved "https://registry.yarnpkg.com/onetime/-/onetime-5.1.1.tgz#5c8016847b0d67fcedb7eef254751cfcdc7e9418"[m
+[31m-  integrity sha512-ZpZpjcJeugQfWsfyQlshVoowIIQ1qBGSVll4rfDq6JJVO//fesjoX808hXWfBjY+ROZgpKDI5TRSRBSoJiZ8eg==[m
+[32m+[m[32m  version "5.1.2"[m
+[32m+[m[32m  resolved "https://registry.yarnpkg.com/onetime/-/onetime-5.1.2.tgz#d0e96ebb56b07476df1dd9c4806e5237985ca45e"[m
+[32m+[m[32m  integrity sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==[m
+   dependencies:[m
+     mimic-fn "^2.1.0"[m
+ [m
