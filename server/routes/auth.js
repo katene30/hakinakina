@@ -45,7 +45,8 @@ function register (req, res,next) {
         // This is vulnerable to changing databases. SQLite happens to use
         // this message, but Postgres doesn't.  
         if (message.includes('UNIQUE constraint failed: users.username')) {
-          return res.status(400).json({
+          console.log('Username already exists')
+          return res.status(400).send({
             ok: false,
             message: 'Username already exists.'
           })

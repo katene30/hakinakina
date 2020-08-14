@@ -1,5 +1,7 @@
 import React from 'react'
 import {createUser} from '../api/users'
+import { Link, Redirect } from 'react-router-dom'
+
 
 
 class Register extends React.Component {
@@ -28,8 +30,8 @@ class Register extends React.Component {
     let {username,firstName,lastName, hash} = this.state
 
     createUser(username,firstName,lastName,hash)
-    .then(user => {
-      console.log('great successs ',user)
+    .then(res => {
+      console.log('great successs ',res)
       return <Redirect to="/" />
     })  
   }
@@ -52,21 +54,21 @@ class Register extends React.Component {
               <div className="form-row">
                 <div className="col">
                   <label htmlFor="firstName"> First Name </label>
-                  <input type="text" className="form-control" id="firstName" onChange={this.updateDetails}/>
+                  <input type="text" className="form-control" id="firstName" onChange={this.updateDetails} required/>
                 </div>
                 <div className="col">
                   <label htmlFor="lastName">Last Name</label>
-                  <input type="text" className="form-control"  onChange={this.updateDetails} id="lastName"/>
+                  <input type="text" className="form-control"  onChange={this.updateDetails} id="lastName" required/>
                 </div>
               </div>
 
               <label className="pt-2" htmlFor="username">Username</label>
-              <input type="text" className="form-control" id="username" onChange={this.updateDetails}/>
+              <input type="text" className="form-control" id="username" onChange={this.updateDetails} required/>
             </div>
 
             <div className="form-group">
               <label htmlFor="hash">Password</label>
-              <input type="password" className="form-control" id="hash" onChange={this.updateDetails}/>
+              <input type="password" className="form-control" id="hash" onChange={this.updateDetails} required/>
             </div>
 
             <button type="submit" className="btn btn-primary">Submit</button>
