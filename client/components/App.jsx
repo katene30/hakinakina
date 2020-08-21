@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react'
 import Login from './Login'
 import Register from './Register'
+import Home from './Home'
+import TrainingRecord from './TrainingRecord'
 import { getFruits } from '../apiClient'
 import { HashRouter as Router, Route } from "react-router-dom";
 
@@ -20,8 +22,6 @@ class App extends React.Component {
   render () {
     return (
       <Router>
-        <Register />
-
         <Route exact path='/' component={Home}/>
         <Route path='/register' component={Register}/>
         <Route path='/login' component={Login}/>

@@ -1,7 +1,10 @@
+const bcrypt = require('bcrypt')
 const sodium = require('libsodium-wrappers')
 
 module.exports = {
-  generateHash
+  generateHash,
+  comparePasswordToHash,
+  generatePasswordHash
 }
 
 function generateHash (password) {
@@ -13,4 +16,12 @@ function generateHash (password) {
       sodium.crypto_pwhash_MEMLIMIT_MIN
     )
   )
+}
+
+function generatePasswordHash (password) {
+    return bcrypt.hash(password,12)
+}
+
+function comparePasswordToHash(password, hash) {
+  return bcrypt.compare(password, hash)
 }

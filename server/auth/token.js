@@ -1,17 +1,52 @@
 const jwt = require('jsonwebtoken')
-
-module.exports = {
-  issue
-}
+const {getUserByUsername} = require('../db/users')
+const verifyJwt = require('express-jwt')
+const {comparePasswordToHash} = require('./hash')
 
 function issue (req, res) {
-  res.json({
-    ok: true,
-    message: 'Authentication successful.',
-    token: createToken(res.locals.userId)
-  })
+  getUserByUsername(req.body.username)
+    .then(user => {
+
+      if (!user) {
+        res.status(403).json({message: 'User does not exist'})
+      } else {
+        comparePasswordToHash(req.body.password, user.hash)
+        .then((match) => {
+          if (!match) {
+            res.status(400).json({message: 'Password is incorrect'})
+          } else {
+            const token = createToken(user, process.env.JWT_SECRET)
+            res.json({
+              message: 'Authentication successful',
+              token
+            })
+          }
+        })
+        .catch(err => {
+          res.status(500).json({message: err.message})
+        })
+      }
+    })
 }
 
-function createToken (id) {
-  return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: '1d'})
+function createToken (user, secret) {
+  const payload = {
+    id: user.id,
+    username: user.username
+  }
+
+  const options = {
+    expiresIn:1
+  }
+
+  return jwt.sign(payload, secret,options)
+}
+
+function decode (req, res, next) {
+  verifyJwt({ secret: process.env, credentialsRequired: true })(req, res, next)
+}
+
+module.exports = {
+  issue,
+  decode,
 }

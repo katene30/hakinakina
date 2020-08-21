@@ -11,7 +11,8 @@ class Register extends React.Component {
       username: '',
       firstName:'',
       lastName:'',
-      hash: ''
+      password: '',
+      error: '',
     }
     this.updateDetails = this.updateDetails.bind(this)
     this.submit = this.submit.bind(this)
@@ -27,12 +28,17 @@ class Register extends React.Component {
 
   submit(e) {
     e.preventDefault()
-    let {username,firstName,lastName, hash} = this.state
+    let {username,firstName,lastName, password} = this.state
 
-    createUser(username,firstName,lastName,hash)
+    createUser(username,firstName,lastName, password)
     .then(res => {
       console.log('great successs ',res)
+      
       return <Redirect to="/" />
+    })
+    .catch(err=> {
+      if(err.message == 'Bad Request') this.setState({error:'Username is already taken'})
+      console.log(err.message)
     })  
   }
 
@@ -47,6 +53,13 @@ class Register extends React.Component {
             
           <form onSubmit={this.submit}>
             <div className="form-group">
+
+            {this.state.error && 
+              <div className="alert alert-danger" role="alert">
+                  {this.state.error}
+              </div>
+            }
+
               <h2>Sign Up</h2>
               <hr/>
 
@@ -64,11 +77,12 @@ class Register extends React.Component {
 
               <label className="pt-2" htmlFor="username">Username</label>
               <input type="text" className="form-control" id="username" onChange={this.updateDetails} required/>
+              <small id="usernameHelp" className="form-text text-muted">Your username will be used to login, so don't forget your details.</small>
             </div>
 
             <div className="form-group">
-              <label htmlFor="hash">Password</label>
-              <input type="password" className="form-control" id="hash" onChange={this.updateDetails} required/>
+              <label htmlFor="password">Password</label>
+              <input type="password" className="form-control" id="password" onChange={this.updateDetails} required/>
             </div>
 
             <button type="submit" className="btn btn-primary">Submit</button>
