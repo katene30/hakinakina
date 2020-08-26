@@ -13,13 +13,13 @@ class Register extends React.Component {
       lastName:'',
       password: '',
       error: '',
+      success:''
     }
     this.updateDetails = this.updateDetails.bind(this)
     this.submit = this.submit.bind(this)
   }
 
   componentDidMount() {
-
   }
 
   updateDetails(e) {
@@ -32,13 +32,14 @@ class Register extends React.Component {
 
     createUser(username,firstName,lastName, password)
     .then(res => {
-      console.log('great successs ',res)
-      
-      return <Redirect to="/" />
+
+      this.setState({success:res.message})
+      window.location.href = "/";
     })
     .catch(err=> {
-      if(err.message == 'Bad Request') this.setState({error:'Username is already taken'})
-      console.log(err.message)
+      if(err.message == 'Bad Request'){ this.setState({error:'Username is already taken'})}else{
+        this.setState({error:"Something bad happened and we don't know why"})
+      }
     })  
   }
 
@@ -57,6 +58,11 @@ class Register extends React.Component {
             {this.state.error && 
               <div className="alert alert-danger" role="alert">
                   {this.state.error}
+              </div>
+            }
+            {this.state.success && 
+              <div className="alert alert-success" role="alert">
+                  {this.state.success}
               </div>
             }
 

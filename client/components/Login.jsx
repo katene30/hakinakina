@@ -6,7 +6,9 @@ class Login extends React.Component {
     super(props)
     this.state = {
       username: '',
-      hash: ''
+      hash: '',
+      success:'',
+      error:'',
     }
     this.updateDetails = this.updateDetails.bind(this)
     this.submit = this.submit.bind(this)
@@ -31,7 +33,14 @@ class Login extends React.Component {
     
     login(user)
     .then(res => {
-      console.log('logged in', res)
+
+      this.setState({error:''})
+      this.setState({success:res.message})
+      window.location.href = "/";
+    })
+    .catch(err => {
+      this.setState({message:""})
+      this.setState({error:"Your username/password is incorrect"})
     })
   }
 
@@ -49,8 +58,9 @@ class Login extends React.Component {
                   <h2>Login</h2>
                   <hr />
 
-                  {/* Error Message
-              {this.props.auth.errorMessage && <div className="alert alert-danger">{this.props.auth.errorMessage}</div>} */}
+                
+              {this.state.error && <div className="alert alert-danger">{this.state.error}</div>}
+              {this.state.success && <div className="alert alert-success">{this.state.success}</div>}
 
                   <label htmlFor="username">Username</label>
                   <input type="text" className="form-control" id="username" onChange={this.updateDetails} required />
