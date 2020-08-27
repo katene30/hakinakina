@@ -1,12 +1,18 @@
-const localStorage = global.window.localStorage
-export function get (key) {
+const localStorage = require('localStorage')
+
+function get (key) {
   return localStorage.getItem(key)
 }
 
-export function set (key, value) {
+function set (key, value) {
   if(value === null) {
     localStorage.removeItem(key)
   } else {
     localStorage.setItem(key, value)
   }
+}
+
+module.exports = {
+  get,
+  set
 }

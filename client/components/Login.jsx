@@ -70,10 +70,13 @@ class Login extends React.Component {
                   <label htmlFor="hash">Password</label>
                   <input type="password" className="form-control" id="hash" onChange={this.updateDetails} required />
                 </div>
+
                 <div className="form-row">
                   <div className="col"> <button type="submit" className="btn btn-primary">Submit</button></div>
-                  <div className="col"> <a href="#"> Forgot your password? </a></div>
+                {/* STRETCH GOAL
+                  <div className="col"> <a href="#"> Forgot your password? </a></div> */}
                 </div>
+
                 <p className="pt-2" style={{ marginBottom: "0px" }}>New to Hakinakina? <a href="#/register">Sign up</a> </p>
               </form>
 

@@ -1,8 +1,8 @@
 const decode = require('jwt-decode')
 
-import {get, set} from './localstorage'
+const {get, set} = require( './localstorage')
 
-export function isAuthenticated () {
+function isAuthenticated () {
   const token = get('token')
   if (token) {
     const payload = decode(token)
@@ -18,16 +18,23 @@ export function isAuthenticated () {
   }
 }
 
-export function saveUserToken (token) {
+function saveUserToken (token) {
   set('token', token)
   return decode(token)
 }
 
-export function getUserTokenInfo () {
+function getUserTokenInfo () {
   const token = get('token')
   return token ? decode(token) : null
 }
 
-export function removeUser () {
+function removeUser () {
   set('token', null)
+}
+
+module.exports ={
+  isAuthenticated,
+  saveUserToken,
+  getUserTokenInfo,
+  removeUser
 }

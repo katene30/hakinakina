@@ -20,6 +20,8 @@ function issue (req, res) {
               message: 'Authentication successful',
               token
             })
+
+
           }
         })
         .catch(err => {
@@ -39,7 +41,9 @@ function createToken (user, secret) {
     expiresIn:1
   }
 
-  return jwt.sign(payload, secret,options)
+  const token = jwt.sign(payload,secret,options)
+
+  return token
 }
 
 function decode (req, res, next) {

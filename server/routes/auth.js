@@ -49,6 +49,7 @@ function register (req, res,next) {
       .then(([id]) => {
           // Be sure to grab the id out of the array Knex returns it in!
           // You can use array destructuring (as above) if you like.
+
           res.locals.userId = id
           next()
       })
