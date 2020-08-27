@@ -19,6 +19,7 @@ router.get(
   )
   
   function user (req, res) {
+    console.log('hitting auth route: ', req)
     getUser(req.user.id)
       .then((user) =>
         res.json({
@@ -49,6 +50,7 @@ function register (req, res,next) {
       .then(([id]) => {
           // Be sure to grab the id out of the array Knex returns it in!
           // You can use array destructuring (as above) if you like.
+
 
           res.locals.userId = id
           next()
