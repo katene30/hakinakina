@@ -1,6 +1,7 @@
 import React from 'react'
 const decode = require('jwt-decode')
 import {get,set} from '../utils/localstorage'
+import NutritionPyramid from './NutritionPyramid'
 
 class Home extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class Home extends React.Component {
           <div className='col'>
             {/* Hakinakina picture */}
             <div className='row'>
-              <img src="/utils/Hakinakina-Logo.png" class="img-fluid" alt="Responsive image" />
+              <img src="/utils/Hakinakina-Logo.png" className="img-fluid" alt="Responsive image" />
             </div>
             {/* Welcome, description */}
             <div className='row'>
@@ -57,6 +58,7 @@ class Home extends React.Component {
               {/* Nutrition Pyramid */}
               <div className='col'>
                 Nutrition Pyramid
+                <NutritionPyramid/>
               </div>
             </div>
           </div>
