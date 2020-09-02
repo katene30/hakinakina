@@ -44,3 +44,16 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
+
+  /* Container holding the image and the text */
+.food-container {
+  position: relative;
+}
+
+  /* Centered text */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
