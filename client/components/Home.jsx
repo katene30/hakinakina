@@ -31,8 +31,8 @@ class Home extends React.Component {
   render () {
     return (
       
-      <div className="container vh-100">
-        <div className="row my-auto h-100">
+      <div className="container-fluid">
+        <div className="row row-cols-2 my-auto h-100 mx-1">
 
           <div className='col'>
             {/* Hakinakina picture */}

@@ -46,20 +46,6 @@
   }
 
 
-  /* Container holding the image and the text
-.food-container {
-  position: relative;
-} */
-
-  /* Centered text
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-} */
-
-
 .food-container {
   position: relative;
 }
@@ -72,8 +58,7 @@
 .food-image {
   opacity: 1;
   display: block;
-  height: 100%;
-  width:auto;
+  position: relative;
   transition: .5s ease;
   backface-visibility: hidden;
 }
@@ -98,39 +83,19 @@
   position: relative;
 }
 
-#fat{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background-color: red;
-}
-#milk{
-  position: absolute;
-  top: 50%;
-  left: -20%;
-  text-align: left;
-}
-#meat{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-#vegetable{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-#fruit{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-#bread{
-  position: absolute;
-  top: 50%;
-  left: 50%;
+
+.mid-pyramid{
+  height: 110px;
+  width: auto;
 }
 
+#fat{
+  height:200px;
+}
+
+#bread{
+  height: 150px;
+}
 
 .food-container:hover .food-image {
   opacity: 0.3;
