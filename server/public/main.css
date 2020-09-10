@@ -82,14 +82,61 @@
   position: relative;
 }
 
+/* Food pyramid lettering */
+
+#fat-text{
+  -ms-transform: rotate(-30deg);
+  transform: rotate(-30deg);
+  width: 100%;
+  position: absolute;
+  bottom: 100%;
+  left: 60%;
+}
 #meat-text{
-  -ms-transform: rotate(20deg);
+  -ms-transform: rotate(-30deg);
   transform: rotate(-30deg);
   width: 100%;
   position: absolute;
   bottom: 0;
   left: 100%;
 }
+#milk-text{
+  -ms-transform: rotate(30deg);
+  transform: rotate(30deg);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+}
+#vegetable-text{
+  -ms-transform: rotate(30deg);
+  transform: rotate(30deg);
+  width: 100%;
+  position: absolute;
+  bottom: 50%;
+  right: 100%;
+}
+#fruit-text{
+  -ms-transform: rotate(-30deg);
+  transform: rotate(-30deg);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+}
+#bread-text{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+
+
+
+
+
+
 
 .mid-pyramid{
   height: 110px;
