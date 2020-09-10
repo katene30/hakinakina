@@ -53,8 +53,8 @@ export class NutritionPyramid extends Component {
                 </div>
 
                   <div className="food-container">
-                    <img className="hvr-grow food-image mid-pyramid" src="/utils/nutrition-pyramid/meat-crop.png" alt="meat" id="meat"/>
-                    <div className="food-pos text-left" id="meat">
+                    <img className="hvr-grow food-image mid-pyramid" src="/utils/nutrition-pyramid/meat-crop.png" alt="meat" />
+                    <div className="food-pos text-left" id="meat-text">
                       <h4>Meat, Poultry, Fish, Dry Beans, Eggs & Nuts</h4>
                       <p className="lead text-capitalize">2-3 Servings</p>
                       <p>Protein is needed by the body for building and repair.</p>

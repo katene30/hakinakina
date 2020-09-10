@@ -68,8 +68,7 @@
   transition: .5s ease;
   opacity: 0;
   position: absolute;
-  top: 50%;
-  left: 50%;
+
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   text-align: center;
@@ -83,6 +82,14 @@
   position: relative;
 }
 
+#meat-text{
+  -ms-transform: rotate(20deg);
+  transform: rotate(-30deg);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+}
 
 .mid-pyramid{
   height: 110px;
