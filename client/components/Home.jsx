@@ -64,7 +64,16 @@ class Home extends React.Component {
           </div>
           <div className='col'>
             {/* Warmup */}
-            <div className='row'></div>
+            <div className='row workout-video'>
+              <div className="col-5">
+                <video src="/utils/videos/warmup.mp4"></video>
+              </div>
+              <div className="col">
+                <h6 className="text-capitalize">Warm Up</h6>
+                <br/>
+                
+              </div>
+            </div>
             {/* Div */}
             <div className='row'></div>
             {/* Stretch */}
