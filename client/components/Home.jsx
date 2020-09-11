@@ -34,7 +34,7 @@ class Home extends React.Component {
       <div className="container-fluid">
         <div className="row row-cols-2 my-auto h-100 mx-1">
 
-          <div className='col'>
+          <div className='col pr-3'>
             {/* Hakinakina picture */}
             <div className='row'>
               <img src="/utils/Hakinakina-Logo.png" className="img-fluid" alt="Responsive image" />
@@ -47,7 +47,7 @@ class Home extends React.Component {
               Try to make your entries as detailed as you can and include the intensity of the training.
               If you have any questions please speak to one of the trainers.
              </p>
-             <h3 className='text-capitalize'>HAVE FUN, ENJOY AND ACHIEVE!!</h3>
+             <h3 className='text-uppercase'>HAVE FUN, ENJOY AND ACHIEVE!!</h3>
             </div>
             <div className='row'>
               {/* Training record */}
@@ -57,27 +57,37 @@ class Home extends React.Component {
               </div>
               {/* Nutrition Pyramid */}
               <div className='col'>
-                Nutrition Pyramid
                 <NutritionPyramid/>
               </div>
             </div>
           </div>
-          <div className='col'>
+          <div className='col mt-3'>
             {/* Warmup */}
-            <div className='row workout-video'>
-              <div className="col-5">
-                <video src="/utils/videos/warmup.mp4"></video>
+            <div className='row align-items-center workout rounded p-3 m-3'>
+              <div className="col">
+                <video controls width='450' src="/utils/videos/warmup.mp4"></video>
               </div>
               <div className="col">
-                <h6 className="text-capitalize">Warm Up</h6>
+                <h4 className="text-uppercase text-light">Warm Up</h4>
                 <br/>
-                
+                <img src="/utils/pics/warmup.png" alt="warmup" className='workout-icon'/>
               </div>
             </div>
             {/* Div */}
-            <div className='row'></div>
+            <div className='row'>
+              <hr className="workout-hr"/>
+            </div>
             {/* Stretch */}
-            <div className='row'></div>
+            <div className='row align-items-center workout rounded p-3 m-3'>
+              <div className="col">
+                <video controls width='450' src="/utils/videos/stretch.mp4"></video>
+              </div>
+              <div className="col">
+                <h4 className="text-uppercase text-light">Stretch</h4>
+                <br/>
+                <img src="/utils/pics/stretch.png" alt="stretch" className='workout-icon'/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
