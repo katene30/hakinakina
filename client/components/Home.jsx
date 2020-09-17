@@ -52,8 +52,8 @@ class Home extends React.Component {
             <div className='row'>
               {/* Training record */}
               <div className='col'>
-                <h2 className='green'>Training Records</h2>
-                <a className='lead' href="/#">+ Add new training session</a>
+                <h2 className='light-green'>Training Records</h2>
+                <a className='light-green lead' href="/#">+ Add new training session</a>
               </div>
               {/* Nutrition Pyramid */}
               <div className='col'>

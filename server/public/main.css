@@ -6,6 +6,11 @@
     align-items: center;
   }
 
+  .light-green{
+    color: #8dc53d;
+  }
+
+
   .rotate {
     writing-mode: vertical-rl;
     text-orientation: mixed;
