@@ -23,15 +23,29 @@ class TrainingRecord extends React.Component {
   submit(e) {
     e.preventDefault()
     let {username, hash} = this.state
-    this.props.dispatch(loginUser({username, hash}))
   }
 
   render () {
     return (
       
-      <div className="bg container vh-100">
-        <div className="row my-auto h-100 align-items-center justify-content-center">
-          THIS Is TrainingRecord
+      <div className="container vh-100">
+        {/* Title header */}
+        <div className="row">
+          <h3 className="text-uppercase">Training Record</h3>
+        </div>
+
+        <div className="row">
+          {/* New session prompt */}
+          <div className="col-2">
+            
+          </div>
+
+          <div className="col">
+            {/* Add new training session */}
+            <div className="row"></div>
+            {/* Table component */}
+            <div className="row"></div>
+          </div>
         </div>
       </div>
     )

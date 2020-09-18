@@ -53,7 +53,7 @@ class Home extends React.Component {
               {/* Training record */}
               <div className='col'>
                 <h2 className='light-green'>Training Records</h2>
-                <a className='light-green lead' href="/#">+ Add new training session</a>
+                <a className='light-green lead' href="#/training-record">+ Add new training session</a>
               </div>
               {/* Nutrition Pyramid */}
               <div className='col'>
