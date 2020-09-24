@@ -1,4 +1,5 @@
 import React from 'react'
+import TrainingRecordForm from './TrainingRecordForm'
 
 
 class TrainingRecord extends React.Component {
@@ -37,7 +38,15 @@ class TrainingRecord extends React.Component {
         <div className="row">
           {/* New session prompt */}
           <div className="col-2">
-            
+          <div className="card" style= {{width: '18rem'}}  >
+            <div className="card-body">
+              <h5 className="card-title">Card title</h5>
+              <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
+              <TrainingRecordForm/>
+
+            </div>
+          </div>
+
           </div>
 
           <div className="col">
