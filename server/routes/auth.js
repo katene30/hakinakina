@@ -19,7 +19,6 @@ router.get(
   )
   
   function user (req, res) {
-    console.log('hitting auth route: ', req)
     getUser(req.user.id)
       .then((user) =>
         res.json({

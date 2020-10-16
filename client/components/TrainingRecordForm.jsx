@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
+import {newLog} from '../api/logs'
+import { getUserTokenInfo } from '../utils/auth'
 
 export default class TrainingRecordForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          username: '',
-          hash: ''
+          date:'',
+          activity:'',
+          length:'',
+          intensity:'',
+          notes:''
         }
         this.updateDetails = this.updateDetails.bind(this)
         this.submit = this.submit.bind(this)
@@ -16,50 +21,81 @@ export default class TrainingRecordForm extends Component {
       }
     
       updateDetails(e) {
+        console.log('name: ',e.target.name)
+        console.log('value: ',e.target.value)
         this.setState({[e.target.name]: e.target.value})
       }
     
       submit(e) {
         e.preventDefault()
-        let {username, hash} = this.state
+        let {date,activity,length,intensity,notes} = this.state
+        let data = getUserTokenInfo()
+
+        let record = {
+          userId:data.id,
+          date,
+          activity,
+          length,
+          intensity,
+          notes
+        }
+        
+        console.log('Record: ',record)
+        newLog(record)
+        .then(res => {
+    
+          this.setState({error:''})
+          this.setState({success:res.message})
+          window.location.href = "/";
+        })
+        .catch(err => {
+          this.setState({message:""})
+          this.setState({error:"Your username/password is incorrect"})
+        })
+
       }
     render() {
         return (
             <div>
                 
-            <form>
+            <form onSubmit={this.submit}>
               <div className="form-group row">
                 <label htmlFor="date" className="col col-form-label">Date</label>
                 <div className="col-9">
-                  <input className="form-control" type="date" id="date" required/>
+                  <input name='date' onChange={this.updateDetails} className="form-control" type="date" id="date" required/>
                 </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="input">What activity did you do?</label>
-                <input type="text" className="form-control" id="input" required/>
+                <input name= 'activity' onChange={this.updateDetails} type="text" className="form-control" id="input" placeholder='e.g Walk up Parihaka' required/>
               </div>
 
               <div className="form-group">
                 <label htmlFor="input">How long for?</label>
-                <input type="text" className="form-control" id="input" required/>
+                <input name='length' onChange={this.updateDetails} type="text" className="form-control" id="input" placeholder='eg. 1hr, 1.8km' required/>
               </div>
 
             <div className="form-groups">
                 <label htmlFor="form-check">Intensity?</label>
                 <br/>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="low" required/>
+                    <input onClick={this.updateDetails} className="form-check-input" type="radio" name="intensity" id="inlineRadio1" value="low" required/>
                     <label className="form-check-label" htmlFor="inlineRadio1">low</label>
                 </div>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="medium" required/>
+                    <input onClick={this.updateDetails} className="form-check-input" type="radio" name="intensity" id="inlineRadio2" value="medium" required/>
                     <label className="form-check-label" htmlFor="inlineRadio2">medium</label>
                 </div>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="high" required/>
+                    <input onClick={this.updateDetails} className="form-check-input" type="radio" name="intensity" id="inlineRadio3" value="high" required/>
                     <label className="form-check-label" htmlFor="inlineRadio3">high</label>
                 </div>
+            </div>
+
+            <div className="form-group mt-2">
+              <label htmlFor="notes">Notes</label>
+              <textarea name='notes' onChange={this.updateDetails} className="form-control" id="notes" rows="3"></textarea>
             </div>
 
 
