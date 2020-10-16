@@ -1,4 +1,6 @@
 import React from 'react'
+import { getUserTokenInfo } from '../utils/auth'
+import { getLogsByUser } from '../api/logs'
 import TrainingRecordForm from './TrainingRecordForm'
 
 
@@ -9,6 +11,7 @@ class TrainingRecord extends React.Component {
       username: '',
       hash: '',
       trainingRecord: false,
+      logs:[]
     }
     this.updateDetails = this.updateDetails.bind(this)
     this.submit = this.submit.bind(this)
@@ -16,7 +19,11 @@ class TrainingRecord extends React.Component {
   }
 
   componentDidMount() {
-
+    let data = getUserTokenInfo()
+    return getLogsByUser(data.id)
+    .then(logs => {
+      this.setState({logs})
+    })
   }
 
   updateDetails(e) {
@@ -109,6 +116,17 @@ class TrainingRecord extends React.Component {
                     <td>Medium</td>
                     <td></td>
                   </tr>
+                  {this.state.logs.map((log,i) => {
+                    return(
+                      <tr key={i}>
+                        <td>{log.date}</td>
+                        <td>{log.activity}</td>
+                        <td>{log.length}</td>
+                        <td>{log.intensity}</td>
+                        <td>{log.notes}</td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>

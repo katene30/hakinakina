@@ -25,13 +25,8 @@ export function deleteLog(log){
     })
 }
 
+
 export function getLogsByUser(userId){
-    return request.get(rootUrl + 's')
-    .send(userId)
-    .then(res => {
-        return res.body
-    })
-    .catch(err => {
-        if (err) throw err
-    })
+    return request.get(`/api/v1/log/logs/${userId}`)
+    .then(res => res.body)
 }

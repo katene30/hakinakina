@@ -14,8 +14,8 @@ function newLog(req,res,next){
   })
 }
 
-router.get('/logs', (req,res) => {
-  getLogsByUser(req.body.userId)
+router.get('/logs/:userId', (req,res) => {
+  getLogsByUser(req.params.userId)
   .then(logs => {
     return res.json(logs)
   })

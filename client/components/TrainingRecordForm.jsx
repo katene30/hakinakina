@@ -10,7 +10,9 @@ export default class TrainingRecordForm extends Component {
           activity:'',
           length:'',
           intensity:'',
-          notes:''
+          notes:'',
+          success:'',
+          error:''
         }
         this.updateDetails = this.updateDetails.bind(this)
         this.submit = this.submit.bind(this)
@@ -21,8 +23,6 @@ export default class TrainingRecordForm extends Component {
       }
     
       updateDetails(e) {
-        console.log('name: ',e.target.name)
-        console.log('value: ',e.target.value)
         this.setState({[e.target.name]: e.target.value})
       }
     
@@ -40,16 +40,15 @@ export default class TrainingRecordForm extends Component {
           notes
         }
         
-        console.log('Record: ',record)
         newLog(record)
         .then(res => {
     
           this.setState({error:''})
-          this.setState({success:res.message})
-          window.location.href = "/";
+          this.setState({success:'It worked!'})
+          location.reload()
         })
         .catch(err => {
-          this.setState({message:""})
+          this.setState({success:""})
           this.setState({error:"Your username/password is incorrect"})
         })
 
@@ -57,7 +56,9 @@ export default class TrainingRecordForm extends Component {
     render() {
         return (
             <div>
-                
+              {this.state.error && <div className="alert alert-danger">{this.state.error}</div>}
+              {this.state.success && <div className="alert alert-success">{this.state.success}</div>}
+
             <form onSubmit={this.submit}>
               <div className="form-group row">
                 <label htmlFor="date" className="col col-form-label">Date</label>
