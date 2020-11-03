@@ -1,21 +1,23 @@
 import React from 'react'
 import { getUserTokenInfo } from '../utils/auth'
-import { getLogsByUser } from '../api/logs'
+import { getLogsByUser,deleteLog } from '../api/logs'
 import TrainingRecordForm from './TrainingRecordForm'
+import { off } from '../../server/db/connection'
 
 
 class TrainingRecord extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
-      hash: '',
       trainingRecord: false,
-      logs:[]
+      logs:[],
+      pending:{},
+      confirm:false
     }
     this.updateDetails = this.updateDetails.bind(this)
-    this.submit = this.submit.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.logSwitch = this.logSwitch.bind(this)
+    this.confirm = this.confirm.bind(this)
   }
 
   componentDidMount() {
@@ -41,16 +43,37 @@ class TrainingRecord extends React.Component {
     }
   }
 
-  submit(e) {
-    e.preventDefault()
-    let {username, hash} = this.state
-    this.setState({trainingRecord:false})
+  logSwitch(log){
+    // switching off
+    if(log.active){
+      this.setState({confirm:false})
+      this.setState({pending:{}})
+      log.active=false
+    
+    }else{
+      // switching on
+      log.active=true
+      this.setState({confirm:true})
+      this.setState({pending:log})
+    }
+
   }
+
+  confirm(e){
+    console.log('hit')
+    this.setState({confirm:true})
+  }
+
 
   render () {
     return (
       
       <div className="container vh-100">
+        {/* Confirm Modal */}
+        
+
+        
+
         {/* Title header */}
         <div className="row">
           <h2 className="text-uppercase">Training Record</h2>
@@ -84,7 +107,7 @@ class TrainingRecord extends React.Component {
             </div>
             {/* Table component */}
             <div className="row">
-              <table className='table mt-4'>
+              <table className='table-hover table mt-4 training-records-table'>
                 <thead>
                   <tr>
                     <th scope='col'>Date</th>
@@ -118,17 +141,64 @@ class TrainingRecord extends React.Component {
                   </tr>
                   {this.state.logs.map((log,i) => {
                     return(
-                      <tr key={i}>
+                      <tr className={log.active ? 'table-danger' : undefined} onClick={() => this.logSwitch(log)} key={i}>
                         <td>{log.date}</td>
                         <td>{log.activity}</td>
                         <td>{log.length}</td>
                         <td>{log.intensity}</td>
                         <td>{log.notes}</td>
+                        {log.active &&
+                        <td>
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onClick={()=>this.confirm()}>
+                            <svg width="2em" height="2em" viewBox="0 0 16 16" className="delete-icon bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg ">
+                          <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                          </svg>
+                          </button>
+                      </td>
+                        }
                       </tr>
                     )
                   })}
                 </tbody>
               </table>
+                  {/* Modal */}
+                  <div class="modal fade" id="exampleModal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to delete this record?</p>
+                {/* Record */}
+                <div class="card">
+                  <div class="card-header">
+                    {this.state.pending.activity}
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">{this.state.pending.date}</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                  <div class="card-footer text-muted">
+                    2 days ago
+                  </div>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
             </div>
           </div>
         </div>
