@@ -44,7 +44,7 @@ export default class TrainingRecordForm extends Component {
         .then(res => {
     
           this.setState({error:''})
-          this.setState({success:'It worked!'})
+          this.setState({success:'Record added'})
           location.reload()
         })
         .catch(err => {

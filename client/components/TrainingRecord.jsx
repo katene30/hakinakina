@@ -105,8 +105,8 @@ class TrainingRecord extends React.Component {
         
 
         {/* Title header */}
-        <div className="row">
-          <h2 className="text-uppercase">Training Record</h2>
+        <div className="row bg-blue mb-2 mu-2">
+          <h2 className="text-uppercase text-white">Training Record</h2>
         </div>
 
         <div className="row">

@@ -211,7 +211,9 @@ div .workout{
   overflow-y: scroll;
 }
 
-
+.bg-blue{
+  background-color: #0DADEE;
+}
 
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
