@@ -6,11 +6,10 @@ const {comparePasswordToHash} = require('./hash')
 function issue (req, res) {
   getUserByUsername(req.body.username)
     .then(user => {
-
       if (!user) {
         res.status(403).json({message: 'User does not exist'})
       } else {
-        comparePasswordToHash(req.body.password, user.hash)
+        comparePasswordToHash(req.body.hash, user.hash)
         .then((match) => {
           if (!match) {
             res.status(400).json({message: 'Password is incorrect'})

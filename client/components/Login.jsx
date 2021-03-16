@@ -1,5 +1,7 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {login} from '../api/users'
+import {loginUser} from '../actions/login.js'
 
 class Login extends React.Component {
   constructor(props) {
@@ -26,22 +28,24 @@ class Login extends React.Component {
     e.preventDefault()
     let { username, hash } = this.state
 
-    let user = {
-      username,
-      password:hash
-    }
-    
-    login(user)
-    .then(res => {
+    // let user = {
+    //   username,
+    //   password:hash
+    // }
 
-      this.setState({error:''})
-      this.setState({success:res.message})
-      window.location.href = "/";
-    })
-    .catch(err => {
-      this.setState({message:""})
-      this.setState({error:"Your username/password is incorrect"})
-    })
+    this.props.dispatch(loginUser({username,hash}))
+    
+    // login(user)
+    // .then(res => {
+
+    //   this.setState({error:''})
+    //   this.setState({success:res.message})
+    //   window.location.href = "/";
+    // })
+    // .catch(err => {
+    //   this.setState({message:""})
+    //   this.setState({error:"Your username/password is incorrect"})
+    // })
   }
 
   render() {
@@ -88,4 +92,11 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps)(Login)

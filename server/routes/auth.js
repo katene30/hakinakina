@@ -10,6 +10,9 @@ const rootUrl = '/api/v1/auth'
 
 router.post('/register', register,token.issue)
 router.post('/login', token.issue)
+
+
+
 router.use(userError)
 
 router.get(
