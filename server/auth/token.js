@@ -9,7 +9,7 @@ function issue (req, res) {
       if (!user) {
         res.status(403).json({message: 'User does not exist'})
       } else {
-        comparePasswordToHash(req.body.hash, user.hash)
+        comparePasswordToHash(req.body.password, user.hash)
         .then((match) => {
           if (!match) {
             res.status(400).json({message: 'Password is incorrect'})

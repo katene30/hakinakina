@@ -42,10 +42,10 @@ class Login extends React.Component {
     //   this.setState({success:res.message})
     //   window.location.href = "/";
     // })
-    // .catch(err => {
-    //   this.setState({message:""})
-    //   this.setState({error:"Your username/password is incorrect"})
-    // })
+    .catch(err => {
+      this.setState({message:""})
+      this.setState({error:"Your username/password is incorrect"})
+    })
   }
 
   render() {

@@ -1,7 +1,6 @@
 import { removeUser } from '../utils/auth'
 
 function requestLogout () {
-    console.log('first')
   return {
     type: 'LOGOUT_REQUEST',
     isFetching: true,
@@ -10,7 +9,6 @@ function requestLogout () {
 }
 
 function receiveLogout () {
-    console.log('second')
   return {
     type: 'LOGOUT_SUCCESS',
     isFetching: false,

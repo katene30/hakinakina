@@ -18,7 +18,7 @@ function generateHash (password) {
   )
 }
 
-function generatePasswordHash (password) {
+  function generatePasswordHash (password) {
     return bcrypt.hash(password,12)
 }
 

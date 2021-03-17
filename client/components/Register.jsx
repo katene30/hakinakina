@@ -1,7 +1,8 @@
 import React from 'react'
 import {createUser} from '../api/users'
 import { Link, Redirect } from 'react-router-dom'
-
+import {registerUserRequest} from '../actions/register'
+import {connect} from 'react-redux'
 
 
 class Register extends React.Component {
@@ -30,17 +31,29 @@ class Register extends React.Component {
     e.preventDefault()
     let {username,firstName,lastName, password} = this.state
 
-    createUser(username,firstName,lastName, password)
-    .then(res => {
+    let user = {
+      username,
+      firstName,
+      lastName,
+      password
+    }
 
-      this.setState({success:res.message})
-      window.location.href = "/";
-    })
-    .catch(err=> {
-      if(err.message == 'Bad Request'){ this.setState({error:'Username is already taken'})}else{
-        this.setState({error:"Something bad happened and we don't know why"})
-      }
-    })  
+    this.props.dispatch(registerUserRequest(user))
+
+
+
+
+    // createUser(username,firstName,lastName, password)
+    // .then(res => {
+
+    //   this.setState({success:res.message})
+    //   window.location.href = "/";
+    // })
+    // .catch(err=> {
+    //   if(err.message == 'Bad Request'){ this.setState({error:'Username is already taken'})}else{
+    //     this.setState({error:"Something bad happened and we don't know why"})
+    //   }
+    // })  
   }
 
   render () {
@@ -103,4 +116,12 @@ class Register extends React.Component {
   }
 }
 
-export default Register
+const mapStateToProps = (state) => {
+  return{
+    auth:state.auth,
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+
+export default connect(mapStateToProps)(Register)
