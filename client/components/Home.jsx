@@ -29,7 +29,6 @@ class Home extends React.Component {
   }
 
   logout(){
-    console.log('component say wahh')
     this.props.dispatch(logoutUser())
   }
 

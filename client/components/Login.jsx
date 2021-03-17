@@ -8,7 +8,7 @@ class Login extends React.Component {
     super(props)
     this.state = {
       username: '',
-      hash: '',
+      password: '',
       success:'',
       error:'',
     }
@@ -26,14 +26,14 @@ class Login extends React.Component {
 
   submit(e) {
     e.preventDefault()
-    let { username, hash } = this.state
+    let { username, password } = this.state
 
     // let user = {
     //   username,
-    //   password:hash
+    //   password:password
     // }
 
-    this.props.dispatch(loginUser({username,hash}))
+    this.props.dispatch(loginUser({username,password}))
     
     // login(user)
     // .then(res => {
@@ -71,8 +71,8 @@ class Login extends React.Component {
                   <small id="emailHelp" className="form-text text-muted">We'll never share your details with anyone else.</small>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="hash">Password</label>
-                  <input type="password" className="form-control" id="hash" onChange={this.updateDetails} required />
+                  <label htmlFor="password">Password</label>
+                  <input type="password" className="form-control" id="password" onChange={this.updateDetails} required />
                 </div>
 
                 <div className="form-row">
