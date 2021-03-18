@@ -2,6 +2,7 @@ import React from 'react'
 const decode = require('jwt-decode')
 import {get,set} from '../utils/localstorage'
 import NutritionPyramid from './NutritionPyramid'
+import ProgressBar from './ProgressBar'
 import {logoutUser} from '../actions/logout'
 import { connect } from 'react-redux';
 
@@ -97,6 +98,8 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
+
+        <ProgressBar/>
 
         {/* Logout test button */}
         <button type="button" className="btn btn-secondary" onClick={() => this.logout()}>Log Out</button>

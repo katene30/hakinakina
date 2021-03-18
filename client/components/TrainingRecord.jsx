@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import { getUserTokenInfo } from '../utils/auth'
 import { getLogsByUser,deleteLog } from '../actions/logs'
 import TrainingRecordForm from './TrainingRecordForm'
@@ -30,7 +31,7 @@ class TrainingRecord extends React.Component {
 
     this.props.dispatch(getLogsByUser(data.id))
     .then(res => {
-      this.setState({logs:this.props.logs.sort(this.byDate)})     
+      this.setState({logs:this.props.logs.sort(this.byDate).reverse()})     
     })
 
 
@@ -93,7 +94,7 @@ class TrainingRecord extends React.Component {
 
   delete(e){
     e.preventDefault()
-    deleteLog(this.state.pending)
+    this.props.dispatch(deleteLog(this.state.pending))
     .then(res => {
       console.log('Congrats, something worked: ', res)
     })
@@ -165,7 +166,7 @@ class TrainingRecord extends React.Component {
                     <td>Day after bball tourney, bit tired</td>
                   </tr>
 
-                  {this.state.logs.reverse().map((log,i) => {
+                  {this.state.logs.map((log,i) => {
                     this.dayDiff(log);
                     let dateOutput = this.dateFormat(log)
                     return(
@@ -225,7 +226,9 @@ class TrainingRecord extends React.Component {
         </div>
 
 
-
+        <div className="row fixed-bottom bg-dark align-items-center">
+          <Link to='/' className="btn btn-primary btn-lg my-2 ml-4">Home</Link>
+        </div>
 
             </div>
           </div>
