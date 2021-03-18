@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import {newLog} from '../api/logs'
+import {connect} from 'react-redux'
+
+import {newLog} from '../actions/logs'
 import { getUserTokenInfo } from '../utils/auth'
 
-export default class TrainingRecordForm extends Component {
+class TrainingRecordForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -20,7 +22,7 @@ export default class TrainingRecordForm extends Component {
     
       componentDidMount() {
     
-      }
+      } 
     
       updateDetails(e) {
         this.setState({[e.target.name]: e.target.value})
@@ -40,17 +42,32 @@ export default class TrainingRecordForm extends Component {
           notes
         }
         
-        newLog(record)
-        .then(res => {
-    
+        this.props.dispatch(newLog(record))
+        .then(() => {
           this.setState({error:''})
           this.setState({success:'Record added'})
           location.reload()
         })
-        .catch(err => {
+        .catch(() => {
           this.setState({success:""})
           this.setState({error:"Your username/password is incorrect"})
         })
+
+
+
+
+        // ERROR HANDLING
+        // newLog(record)
+        // .then(res => {
+    
+        //   this.setState({error:''})
+        //   this.setState({success:'Record added'})
+        //   // location.reload()
+        // })
+        // .catch(err => {
+        //   this.setState({success:""})
+        //   this.setState({error:"Your username/password is incorrect"})
+        // })
 
       }
     render() {
@@ -106,3 +123,12 @@ export default class TrainingRecordForm extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps)(TrainingRecordForm)

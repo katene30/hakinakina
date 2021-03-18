@@ -1,9 +1,16 @@
 const connection = require('./connection')
 
 module.exports = {
+  dbGetLogs,
   createLog,
   getLogsByUser,
   deleteLog
+}
+
+
+function dbGetLogs(db = connection){
+  return db('logs')
+  .select()
 }
 
 function createLog(log, db = connection){

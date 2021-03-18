@@ -1,11 +1,18 @@
 const express = require('express')
 
-const {createLog,getLogsByUser,deleteLog} = require ('../db/logs')
-
+const {createLog,getLogsByUser,deleteLog,dbGetLogs} = require ('../db/logs')
 
 const router = express.Router()
 
 router.post('/log',newLog)
+router.get('/',getLogs)
+
+function getLogs(req,res){
+  dbGetLogs()
+  .then(logs => {
+    return res.json(logs)
+  })
+}
 
 function newLog(req,res,next){
   createLog(req.body)

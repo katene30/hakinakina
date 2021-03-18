@@ -1,7 +1,8 @@
 import React from 'react'
 import { getUserTokenInfo } from '../utils/auth'
-import { getLogsByUser,deleteLog } from '../api/logs'
+import { getLogsByUser,deleteLog } from '../actions/logs'
 import TrainingRecordForm from './TrainingRecordForm'
+import {connect} from 'react-redux' 
 
 
 class TrainingRecord extends React.Component {
@@ -21,14 +22,22 @@ class TrainingRecord extends React.Component {
     this.dayDiff = this.dayDiff.bind(this)
     this.delete = this.delete.bind(this)
     this.dateFormat = this.dateFormat.bind(this)
+    this.byDate = this.byDate.bind(this)
   }
 
   componentDidMount() {
     let data = getUserTokenInfo()
-    return getLogsByUser(data.id)
-    .then(logs => {
-      this.setState({logs:logs.reverse()})
+
+    this.props.dispatch(getLogsByUser(data.id))
+    .then(res => {
+      this.setState({logs:this.props.logs.sort(this.byDate)})     
     })
+
+
+  }
+
+  byDate(a,b){
+    return new Date(a.date).valueOf() - new Date(b.date).valueOf()
   }
 
   updateDetails(e) {
@@ -156,7 +165,7 @@ class TrainingRecord extends React.Component {
                     <td>Day after bball tourney, bit tired</td>
                   </tr>
 
-                  {this.state.logs.map((log,i) => {
+                  {this.state.logs.reverse().map((log,i) => {
                     this.dayDiff(log);
                     let dateOutput = this.dateFormat(log)
                     return(
@@ -226,4 +235,12 @@ class TrainingRecord extends React.Component {
   }
 }
 
-export default TrainingRecord
+const mapStateToProps = (state) => {
+  return {
+    logs: state.logs,
+    auth: state.auth,
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps)(TrainingRecord)

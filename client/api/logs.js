@@ -2,6 +2,15 @@ import request from 'superagent'
 
 const rootUrl = '/api/v1/log'
 
+export function getLogs(){
+    return request.get(rootUrl)
+    .then(res => {
+        res.body
+    })
+    .catch(err => {
+        if(err) throw err
+    })
+}
 
 export function newLog(log){
     return request.post(rootUrl+'/log')
