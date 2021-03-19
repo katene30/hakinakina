@@ -4,12 +4,29 @@ export class ProgressBar extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          sessions: 20
+          sessions: 20,
+          month: new Date().getMonth(),
+          term:0
         }
       }
     
       componentDidMount() {
-    
+        
+      }
+      
+      attendance(){
+
+      }
+
+      term(){
+        switch (this.state.month) {
+          case 2:
+            this.setState({})
+            break;
+        
+          default:
+            break;
+        }
       }
     
     
