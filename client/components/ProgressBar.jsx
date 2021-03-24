@@ -39,18 +39,27 @@ export class ProgressBar extends Component {
       term(){
         const month = this.state.month
         if(month == 1 || month == 2 ||month ==  3 ){
-          this.setState({term: 1})
+          this.setState({term: 1},()=>{
+            this.props.dispatch(saveTerm(this.state.term))
+          })
         }else if(month == 4||month == 5){
-          this.setState({term:2})
+          this.setState({term:2},()=>{
+            this.props.dispatch(saveTerm(this.state.term))
+          })
         }else if(month == 6||month == 7||month == 8){
-          this.setState({term:3})
+          this.setState({term:3},()=>{
+            this.props.dispatch(saveTerm(this.state.term))
+          })
         }else if(month == 9||month == 10||month == 11){
-          this.setState({term: 4})
+          this.setState({term: 4},()=>{
+            this.props.dispatch(saveTerm(this.state.term))
+          })
         }else{
           this.setState({term:0})
         }
 
-        this.props.dispatch(saveTerm(this.state.term))
+        // this.props.dispatch(saveTerm(this.state.term))
+
       }
     
     
@@ -75,6 +84,7 @@ export class ProgressBar extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    term: state.term,
     logs: state.logs,
     auth: state.auth,
     isAuthenticated: state.auth.isAuthenticated

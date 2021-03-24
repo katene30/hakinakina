@@ -52,7 +52,6 @@ class TrainingRecordForm extends Component {
         if(this.state.prompt){
           record.activity = 'Hakinakina'
           record.length = 'N/A'
-
           record.term = this.props.term
         }
 
@@ -208,6 +207,7 @@ class TrainingRecordForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    term: state.term,
     auth: state.auth,
     isAuthenticated: state.auth.isAuthenticated
   }
