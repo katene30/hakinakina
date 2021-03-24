@@ -50,10 +50,16 @@ class TrainingRecordForm extends Component {
           notes
         }
         
+
+        let arr = record.date.split('-')
+        let month = parseInt(arr[1],10) -1
+
+
+
         if(this.state.prompt){
           record.activity = 'Hakinakina'
           record.length = 'N/A'
-          record.term = term(new Date().getMonth())
+          record.term = term(month)
         }
 
 
