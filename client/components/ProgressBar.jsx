@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {saveTerm} from '../actions/term'
 import {connect} from 'react-redux' 
+import { getLogsByUser } from '../actions/logs'
 
 export class ProgressBar extends Component {
     constructor(props) {
@@ -18,7 +19,10 @@ export class ProgressBar extends Component {
     
       componentDidMount() {
         this.term()
-        this.attendance()
+        this.props.dispatch(getLogsByUser(this.props.auth.user.id))
+        .then(()=>{
+          this.attendance()
+        })
       }
       
       componentDidUpdate(prevProps,prevState){
@@ -33,7 +37,19 @@ export class ProgressBar extends Component {
       attendance(){
         const attendance = this.state.attendance
         const total = this.state.total
-        this.setState({progress:(attendance/total)*100}) 
+        const logs = this.props.logs
+        const term = this.state.term
+
+        console.log(logs)
+        let acc = 0
+
+        for(let i=0; i < logs.length; i++){
+          if(logs[i].term == term && logs[i].activity == 'Hakinakina'){
+            acc ++
+          }
+        }
+
+        this.setState({attendance:acc}, this.setState({progress:(acc/total)*100}))
       }
 
       term(){
@@ -58,7 +74,6 @@ export class ProgressBar extends Component {
           this.setState({term:0})
         }
 
-        // this.props.dispatch(saveTerm(this.state.term))
 
       }
     
@@ -70,10 +85,6 @@ export class ProgressBar extends Component {
 
         return (
             <div>
-              {/* BUTTONS FOR TESTING */}
-              <button type="button" id="attendance" className="btn btn-secondary" onClick={() => this.setState({attendance:this.state.attendance++})}>attendance</button>
-              <button type="button" id="term" className="btn btn-secondary" onClick={() => this.setState({term: this.state.term ++})}>term</button>
-
               <div className="progress">
                 <div className="progress-bar" style={prog} className="bg-light-green" role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0" aria-valuemax="100"></div>
               </div>
