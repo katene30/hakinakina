@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import {saveTerm} from '../actions/term'
+import {connect} from 'react-redux' 
 
 export class ProgressBar extends Component {
     constructor(props) {
@@ -7,9 +9,11 @@ export class ProgressBar extends Component {
           total: 20,
           month: new Date().getMonth(),
           term:0,
-          attendance:0
+          attendance:0,
+          progress:0
         }
         this.term = this.term.bind(this)
+        this.attendance = this.attendance.bind(this)
       }
     
       componentDidMount() {
@@ -21,12 +25,15 @@ export class ProgressBar extends Component {
         if(this.state.term != prevState.term){
           this.setState({attendance:0})
         }
+        if(this.state.attendance != prevState.attendance){
+          this.attendance()
+        }
       }
 
       attendance(){
         const attendance = this.state.attendance
         const total = this.state.total
-        return (attendance/total)*100
+        this.setState({progress:(attendance/total)*100}) 
       }
 
       term(){
@@ -42,21 +49,36 @@ export class ProgressBar extends Component {
         }else{
           this.setState({term:0})
         }
+
+        this.props.dispatch(saveTerm(this.state.term))
       }
     
     
     render() {
+      const prog = {
+        width: this.state.progress + "%"
+      }
+
         return (
             <div>
-              <button type="button" className="btn btn-secondary" onClick={() => this.setState({attendance:this.state.attendance ++})}>attendance</button>
-              <button type="button" className="btn btn-secondary" onClick={() => this.setState({term:this.state.term ++})}>term</button>
+              {/* BUTTONS FOR TESTING */}
+              <button type="button" id="attendance" className="btn btn-secondary" onClick={() => this.setState({attendance:this.state.attendance++})}>attendance</button>
+              <button type="button" id="term" className="btn btn-secondary" onClick={() => this.setState({term: this.state.term ++})}>term</button>
 
               <div className="progress">
-                <div className="progress-bar w-75" role="progressbar" aria-valuenow={this.state.attendance} aria-valuemin="0" aria-valuemax="100"></div>
+                <div className="progress-bar" style={prog} className="bg-light-green" role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
         )
     }
 }
 
-export default ProgressBar
+const mapStateToProps = (state) => {
+  return {
+    logs: state.logs,
+    auth: state.auth,
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps)(ProgressBar)
