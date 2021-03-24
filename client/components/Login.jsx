@@ -27,21 +27,13 @@ class Login extends React.Component {
   submit(e) {
     e.preventDefault()
     let { username, password } = this.state
-
-    // let user = {
-    //   username,
-    //   password:password
-    // }
-
     this.props.dispatch(loginUser({username,password}))
     
-    // login(user)
-    // .then(res => {
+    .then(res => {
 
-    //   this.setState({error:''})
-    //   this.setState({success:res.message})
-    //   window.location.href = "/";
-    // })
+      this.setState({error:''})
+      this.setState({success:res.message})
+    })
     .catch(err => {
       this.setState({message:""})
       this.setState({error:"Your username/password is incorrect"})

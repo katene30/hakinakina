@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {saveTerm} from '../actions/term'
 import {connect} from 'react-redux' 
+import {term} from '../utils/term'
 import { getLogsByUser } from '../actions/logs'
 
 export class ProgressBar extends Component {
@@ -40,7 +41,6 @@ export class ProgressBar extends Component {
         const logs = this.props.logs
         const term = this.state.term
 
-        console.log(logs)
         let acc = 0
 
         for(let i=0; i < logs.length; i++){
@@ -54,25 +54,10 @@ export class ProgressBar extends Component {
 
       term(){
         const month = this.state.month
-        if(month == 1 || month == 2 ||month ==  3 ){
-          this.setState({term: 1},()=>{
-            this.props.dispatch(saveTerm(this.state.term))
-          })
-        }else if(month == 4||month == 5){
-          this.setState({term:2},()=>{
-            this.props.dispatch(saveTerm(this.state.term))
-          })
-        }else if(month == 6||month == 7||month == 8){
-          this.setState({term:3},()=>{
-            this.props.dispatch(saveTerm(this.state.term))
-          })
-        }else if(month == 9||month == 10||month == 11){
-          this.setState({term: 4},()=>{
-            this.props.dispatch(saveTerm(this.state.term))
-          })
-        }else{
-          this.setState({term:0})
-        }
+
+        this.setState({term:term(month)}, ()=>{
+          this.props.dispatch(saveTerm(this.state.term))
+        })
 
 
       }

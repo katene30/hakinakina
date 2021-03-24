@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 
 import {newLog} from '../actions/logs'
 import { getUserTokenInfo } from '../utils/auth'
+import {term} from '../utils/term'
 
 class TrainingRecordForm extends Component {
     constructor(props) {
@@ -52,10 +53,9 @@ class TrainingRecordForm extends Component {
         if(this.state.prompt){
           record.activity = 'Hakinakina'
           record.length = 'N/A'
-          record.term = this.props.term
+          record.term = term(new Date().getMonth())
         }
 
-        console.log(record)
 
         this.props.dispatch(newLog(record))
         .then(() => {
