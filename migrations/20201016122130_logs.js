@@ -8,6 +8,7 @@ exports.up = function(knex) {
       table.string('length')
       table.string('intensity')
       table.string('notes')
+      table.integer('term')
   })
 };
 
