@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {newLog} from '../actions/logs'
 import { getUserTokenInfo } from '../utils/auth'
-import {term} from '../utils/term'
+import {term} from '../utils/dates'
 
 class TrainingRecordForm extends Component {
     constructor(props) {

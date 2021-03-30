@@ -13,6 +13,11 @@ function term(month){
       }
 }
 
+function year(dateString){
+  return parseInt(dateString)
+}
+
 module.exports = {
-    term
+    term,
+    year
 }

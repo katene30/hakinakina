@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {saveTerm} from '../actions/term'
 import {connect} from 'react-redux' 
-import {term} from '../utils/term'
+import {term,year} from '../utils/dates'
 import { getLogsByUser } from '../actions/logs'
 
 export class ProgressBar extends Component {
@@ -12,7 +12,8 @@ export class ProgressBar extends Component {
           month: new Date().getMonth(),
           term:0,
           attendance:0,
-          progress:0
+          progress:0,
+          year: new Date().getFullYear()
         }
         this.term = this.term.bind(this)
         this.attendance = this.attendance.bind(this)
@@ -44,7 +45,7 @@ export class ProgressBar extends Component {
         let acc = 0
 
         for(let i=0; i < logs.length; i++){
-          if(logs[i].term == term && logs[i].activity == 'Hakinakina'){
+          if(logs[i].term == term && logs[i].activity == 'Hakinakina' && year(logs[i].date) == this.state.year){
             acc ++
           }
         }
