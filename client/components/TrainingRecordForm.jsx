@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
+import { DateTime } from "luxon";
 
 import {newLog} from '../actions/logs'
 import { getUserTokenInfo } from '../utils/auth'
@@ -41,25 +42,24 @@ class TrainingRecordForm extends Component {
         let {date,activity,length,intensity,notes} = this.state
         let data = getUserTokenInfo()
 
+        let dt = DateTime.fromISO(date)
+        
+
         let record = {
           userId:data.id,
-          date,
+          date:dt,
           activity,
           length,
           intensity,
           notes
         }
         
-
-        let arr = record.date.split('-')
-        let month = parseInt(arr[1],10) -1
-
-
+        
 
         if(this.state.prompt){
           record.activity = 'Hakinakina'
           record.length = 'N/A'
-          record.term = term(month)
+          record.term = term(dt.month)
         }
 
 

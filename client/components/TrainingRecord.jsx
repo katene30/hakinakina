@@ -1,9 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux' 
+import {DateTime} from 'luxon'
+
 import { getUserTokenInfo } from '../utils/auth'
 import { getLogsByUser,deleteLog } from '../actions/logs'
 import TrainingRecordForm from './TrainingRecordForm'
-import {connect} from 'react-redux' 
 
 
 class TrainingRecord extends React.Component {
@@ -145,6 +147,37 @@ class TrainingRecord extends React.Component {
             <div className="row">
               <a className='h4' href='#' id='new' onClick={this.handleClick}>+ Add new training session</a>
             </div>
+
+            {/* Search bar */}
+            <nav class="navbar navbar-light bg-light">
+              <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </nav>
+            {/* Date Filter */}
+            <form class="form-inline">
+              <label class="sr-only" for="inlineFormInputName2">Filter date from</label>
+              <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe"/>
+
+              <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+              <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">@</div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username"/>
+              </div>
+
+              <div class="form-check mb-2 mr-sm-2">
+                <input class="form-check-input" type="checkbox" id="inlineFormCheck"/>
+                <label class="form-check-label" for="inlineFormCheck">
+                  Remember me
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+
             {/* Table component */}
             <div className="row">
               <table className='table-hover table mt-4 training-records-table'>
@@ -168,10 +201,9 @@ class TrainingRecord extends React.Component {
 
                   {this.state.logs.map((log,i) => {
                     this.dayDiff(log);
-                    let dateOutput = this.dateFormat(log)
                     return(
                       <tr className={this.state.pending.id == log.id ? 'table-danger' : undefined} onClick={() => this.logSwitch(log)} key={i}>
-                        <td>{dateOutput}</td>
+                        <td>{DateTime.fromISO(log.date, {locale: "en-GB"}).toLocaleString()}</td>
                         <td>{log.activity}</td>
                         <td>{log.length}</td>
                         <td>{log.intensity}</td>
