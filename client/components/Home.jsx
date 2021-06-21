@@ -3,8 +3,10 @@ const decode = require('jwt-decode')
 import {get,set} from '../utils/localstorage'
 import NutritionPyramid from './NutritionPyramid'
 import ProgressBar from './ProgressBar'
-import {logoutUser} from '../actions/logout'
 import { connect } from 'react-redux';
+
+import {reduxTrainingRecord} from '../actions/trainingRecord'
+import {logoutUser} from '../actions/logout'
 
 class Home extends React.Component {
   constructor(props) {
@@ -36,6 +38,10 @@ class Home extends React.Component {
   submit(e) {
   }
 
+  trainingRecord(){
+    this.props.dispatch(reduxTrainingRecord())
+  }
+
   render () {
     return (
       
@@ -60,8 +66,9 @@ class Home extends React.Component {
             <div className='row'>
               {/* Training record */}
               <div className='col'>
-                <h2 className='light-green'>Training Records</h2>
-                <a className='light-green lead' href="#/training-record">+ Add new training session</a>
+                <a className='light-green h2' href="#/training-record">Training Records</a>
+                <br />
+                <a className='light-green lead' href="#/training-record" onClick={() => this.trainingRecord()}>+ Add new training session</a>
               </div>
               {/* Nutrition Pyramid */}
               <div className='col'>

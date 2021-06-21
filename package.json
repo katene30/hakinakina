@@ -45,7 +45,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "sqlite3": "^4.1.1",
+    "sqlite3": "^5.0.2",
     "webpack-node-externals": "^2.5.1"
   },
   "devDependencies": {
